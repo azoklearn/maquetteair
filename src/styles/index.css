@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #0B0B0B;
+  --sand: #FBF8F4;
+  --gold: #B8985A;
+}
+
+* { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+html, body { background: var(--sand); color: var(--ink); }
+
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-scrolling iframe { pointer-events: none; }
+
+::selection { background: #0B0B0B; color: #FBF8F4; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #1F1F1F; border-radius: 8px; }
+
+@layer components {
+  .container-luxe {
+    @apply max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16;
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-[11px] uppercase tracking-ultra text-ink/60 font-medium;
+  }
+  .eyebrow::before {
+    content: '';
+    @apply block w-8 h-px bg-gold;
+  }
+  .h-display {
+    @apply font-display font-medium tracking-tight leading-[0.95];
+  }
+  .btn-primary {
+    @apply inline-flex items-center gap-3 px-7 py-4 bg-ink text-sand-50 rounded-full text-sm tracking-wide
+           transition-all duration-500 ease-expo hover:bg-gold hover:text-ink
+           hover:shadow-[0_20px_60px_-15px_rgba(184,152,90,0.6)];
+  }
+  .btn-ghost {
+    @apply inline-flex items-center gap-3 px-7 py-4 border border-ink/20 text-ink rounded-full text-sm tracking-wide
+           transition-all duration-500 ease-expo hover:border-ink hover:bg-ink hover:text-sand-50;
+  }
+  .card-luxe {
+    @apply relative overflow-hidden bg-sand-100/60 backdrop-blur-sm border border-ink/5
+           rounded-3xl p-8 md:p-10 transition-all duration-700 ease-expo;
+  }
+  .grain {
+    position: relative;
+  }
+  .grain::after {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    opacity: .6;
+  }
+}
+
+/* Underline effect for nav links */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -4px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
+
+/* Magnetic button glow */
+.glow {
+  position: relative;
+  isolation: isolate;
+}
+.glow::before {
+  content: "";
+  position: absolute; inset: -2px;
+  border-radius: 999px;
+  background: conic-gradient(from var(--a, 0deg), transparent, #B8985A, transparent 60%);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity .6s ease;
+  animation: spin 5s linear infinite;
+}
+.glow:hover::before { opacity: 1; }
+@keyframes spin { to { --a: 360deg; transform: rotate(1turn); } }
+@property --a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+
+/* Marquee */
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+@keyframes marquee { to { transform: translateX(-50%); } }
